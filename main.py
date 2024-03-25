@@ -1,5 +1,6 @@
 import dill
 from flask import Flask, request, jsonify
+from flask_cors import CORS  # Import CORS
 from joblib import load
 from dill import load
 import string
@@ -15,7 +16,9 @@ from sklearn.naive_bayes import MultinomialNB
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import classification_report, confusion_matrix, accuracy_score
 nltk.download('stopwords')
+
 app = Flask(__name__)
+CORS(app)  # Enable CORS for the entire app
 
 with open('model.dill', 'rb') as f:
     pipeline = dill.load(f)
