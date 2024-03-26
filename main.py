@@ -32,5 +32,19 @@ def predict():
         'is_fake_review': predictions.tolist()[0] == 'CG'
     })
 
+@app.route('/predict-batch', methods=['POST'])
+def predict_batch():
+    data = request.get_json(force=True)
+    predictions = pipeline.predict(data['texts'])
+
+    array_response = []
+    for prediction in predictions:
+        array_response.append({
+            'is_fake_review': prediction == 'CG'
+        })
+
+    return jsonify(array_response)
+
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=False)
